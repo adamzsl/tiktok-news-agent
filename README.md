@@ -64,46 +64,17 @@ Build a fully automated, self-improving TikTok content factory that:
 
 Each account runs its own Writer ↔ Critic loop with its own path config. Video footage is generated once per news story and shared; narration and captions are generated per account.
 
-## Results So Far
+## Results
 
-### Completed Research Spikes
-
-| Spike | Decision |
-|---|---|
-| **PIAT-17 — Fetching News** | **Tavily** selected as primary browser/search tool. Output schema defined with fields: `title`, `summary`, `url`, `topic`, `source`, `timestamp`, `raw_text`, `language`, `fetch_score`, `paywall`. |
-| **PIAT-15 — TikTok Uploading** | **Zernio** selected as the upload platform. Official TikTok Content Posting API does not support fully automated uploads; Zernio bridges this gap. |
-| **PIAT-12 — Existing Multi-Agent Solutions** | Surveyed content pipelines, evaluator/critic loops, and automated media production projects for architectural inspiration. |
-| **PIAT-11 — Multi-Agent Frameworks** | Evaluated LangGraph, CrewAI, AutoGen, LlamaIndex Workflows. **LangGraph** favored for its native support for cyclic graphs (required by the Creator ↔ Critic loop). |
-
-### In-Progress Research Spikes
-
-| Spike | Status |
-|---|---|
-| **PIAT-22 — Audio Generation** | Evaluating ElevenLabs vs. OpenAI TTS vs. PlayHT vs. local models (Kokoro, Coqui) for per-persona voices. |
-| **PIAT-21 — Caption Generation** | Defining optimal TikTok caption structure (hook + hashtags + CTA) and model selection strategy. |
-| **PIAT-20 — Video Generation** | Evaluating Kling AI vs. RunwayML vs. Pika vs. HeyGen for AI footage generation. |
-
-### Open Research Spikes
-
-| Spike | Question |
-|---|---|
-| **PIAT-26 — Cost Modeling** | End-to-end per-video API cost breakdown across all pipeline stages. |
-| **PIAT-25 — Observability Tooling** | Langfuse vs. LangSmith vs. structured logging for LLM tracing and cost tracking. |
-| **PIAT-24 — Virality Scoring Model** | Rule-based heuristics vs. LLM-as-judge vs. classifier for ranking article candidates. |
-| **PIAT-19 — TikTok Metrics Feedback Loop** | How to correlate post performance back to pipeline parameters via TikTok API. |
-| **PIAT-18 — News Deduplication** | Exact URL vs. semantic similarity (embeddings) vs. title hashing strategy. |
-| **PIAT-16 — TikTok Account Pool** | Persona design, account rotation strategy, and anti-spam considerations. |
-
-### Implementation Progress
-
-- **PIAT-31** (In Progress) — Zernio platform integration tool
-- **PIAT-30** (To Do) — Video Content Creator agent
-- **PIAT-29** (To Do) — Writer and Critic agents
-- **PIAT-28** (To Do) — Researcher (News Fetcher) agent
-- **PIAT-13** (Done) — Agent descriptions written for all workflow nodes
-- **PIAT-10** (Done) — Jira scrum board configured
-- **PIAT-9** (Done) — Agent workflow graph drawn
-
-### Prototype (this repo)
-
-A working proof-of-concept of the News Fetcher agent is implemented in `src/` as Jupyter notebooks using **LangChain + OpenAI GPT-4o-mini + Tavily**. The second notebook (`test_agent_fixed_schema.ipynb`) adds Pydantic-validated structured output matching the agreed schema.
+| Name | Status | Description |
+|---|---|---|
+| **PIAT-1 — Project Foundation** | Done | All setup and groundwork tasks before development begins. Includes board configuration, workflow graph, framework research, and agent documentation. |
+| **PIAT-2 — News Fetcher Agent** | To Do | Fetches, preprocesses, and tags real news as the pipeline entry point. Uses Tavily as the primary tool; handles deduplication, virality pre-scoring, and output schema normalization. |
+| **PIAT-3 — Content Creator Agent** | To Do | Generates a per-account TikTok script parameterized by persona, language, tone, `true_fake_ratio`, and voice. Handles Critic feedback within the refinement loop. |
+| **PIAT-4 — Critic Agent** | To Do | Evaluates generated scripts for TikTok catchiness. Defines scoring criteria, exit thresholds, and structured feedback format sent back to the Content Creator. |
+| **PIAT-5 — Creator ↔ Critic Loop Orchestration** | To Do | Orchestrates the per-account script generation loop using LangGraph. Assigns `run_id`, stores full path metadata per run, and exits on approval or iteration cap. |
+| **PIAT-6 — Narrator & Video Generation** | To Do | Converts approved scripts into TikTok-ready videos. Video footage is generated once per story; TTS narration and captions are generated per account and assembled into one video file each. |
+| **PIAT-7 — End-to-End Pipeline Orchestration** | To Do | Wires all agents into a functioning pipeline. Covers error handling, retry logic, observability, configuration management, and integration tests. |
+| **PIAT-8 — Output & Distribution** | To Do | Publishes generated videos to the TikTok account pool via Zernio with full path metadata attached, scheduling posts to avoid spam-pattern detection. |
+| **PIAT-23 — Metrics Collection & Path Analysis** | To Do | Collects TikTok performance metrics (views, likes, completion rate) per post and joins them on `run_id` to build a priors store for the Adaptive Pipeline. |
+| **PIAT-27 — Adaptive Pipeline** | To Do | Extends MVP agents to consume historical performance data from the priors store, biasing script ratios, Critic thresholds, and virality scoring toward what works. |
